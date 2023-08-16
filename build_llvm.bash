@@ -57,7 +57,7 @@ if [ x"$install_prefix" == x ] || [ x"$platform" == x ] || [ x"$build_config" ==
 fi
 
 # Set up CMake configurations
-CMAKE_CONFIGS="-DLLVM_ENABLE_PROJECTS=clang;mlir -DLLVM_INSTALL_UTILS=ON -DLLVM_INCLUDE_TESTS=OFF"
+CMAKE_CONFIGS="-DLLVM_ENABLE_PROJECTS=mlir -DLLVM_USE_LINKER=gold -DLLVM_ENABLE_LTO=OFF"
 if [ x"$arch" == x"arm64" ]; then
   CMAKE_CONFIGS="${CMAKE_CONFIGS}"
 else
@@ -104,7 +104,7 @@ elif [ x"$platform" == x"docker_ubuntu-18.04" ] ||
   DOCKER_FILE_PATH="scripts/$platform/Dockerfile"
 
   echo "Building $DOCKER_REPOSITORY:$DOCKER_TAG using $DOCKER_FILE_PATH"
-  docker build -t $DOCKER_REPOSITORY:$DOCKER_TAG --build-arg cmake_configs="${CMAKE_CONFIGS}" --build-arg num_jobs="${num_jobs}" --build-arg install_dir_name="${install_prefix}" -f "$BUILD_DIR/$DOCKER_FILE_PATH" "$BUILD_DIR"
+  docker build -t $DOCKER_REPOSITORY:$DOCKER_TAG --build-arg http_proxy=${http_proxy} --build-arg https_proxy=${https_proxy} --build-arg cmake_configs="${CMAKE_CONFIGS}" --build-arg num_jobs="${num_jobs}" --build-arg install_dir_name="${install_prefix}" -f "$BUILD_DIR/$DOCKER_FILE_PATH" "$BUILD_DIR"
 
   # Copy a created tarball from a Docker container.
   # We cannot directly copy a file from a Docker image, so first
