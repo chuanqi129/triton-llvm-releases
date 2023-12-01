@@ -26,12 +26,16 @@ jobs:
             dist: centos-7
           - os: macos-13
             dist: ubuntu-18.04
+          - os: macos-13
+            dist: local
           - os: ubuntu-latest
             dist: local
           - os: macos-13-arm64
             dist: centos-7
           - os: macos-13-arm64
             dist: ubuntu-18.04
+          - os: macos-13-arm64
+            dist: local
 
     steps:
       - name: Checkout
